@@ -2,6 +2,19 @@
            (replacing the palceholder with your Github name):
            https://api.github.com/users/<your name>
 */
+let myProfile = axios.get('https://api.github.com/users/Iyehvah')
+    .then((response) => {
+      response.data.forEach((card) => {
+        const newProfileEntry = new profile(card);
+        entry.appendChild(newProfileEntry);
+      });
+    })
+    .catch( err => {
+      console.log("It didnt work!");
+    });
+
+console.log(myProfile);
+
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
@@ -53,3 +66,27 @@ const followersArray = [];
   luishrd
   bigknell
 */
+function githubCard(myProfile) {
+  const newCard = document.createElement('div');
+  newCard.classList.add('card');
+  
+  const newImg = document.createElement('img');
+
+  const cardInfo = document.createElement('div');
+  cardInfo.classList.add('card-info');
+
+  const name = document.createElement('h3');
+  name.classList.add('name');
+
+  const userName = document.createElement('p');
+  userName.classList.add('username');
+
+  const location = document.createElement('p');
+  const profile = document.createElement('p');
+  const followers = document.createElement('p');
+  const following = document.createElement('p');
+  const bio = document.createElement('p');
+
+  console.log(githubCard);
+}
+
