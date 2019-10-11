@@ -2,18 +2,11 @@
            (replacing the palceholder with your Github name):
            https://api.github.com/users/<your name>
 */
-let myProfile = axios.get('https://api.github.com/users/Iyehvah')
-    .then((response) => {
-      response.data.forEach((card) => {
-        const newProfileEntry = new profile(card);
-        entry.appendChild(newProfileEntry);
-      });
-    })
-    .catch( err => {
-      console.log("It didnt work!");
-    });
 
-console.log(myProfile);
+
+
+
+// console.log(myProfile);
 
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
@@ -69,8 +62,9 @@ const followersArray = [];
 function githubCard(myProfile) {
   const newCard = document.createElement('div');
   newCard.classList.add('card');
-  
+
   const newImg = document.createElement('img');
+  newImg.classList.add('card img');
 
   const cardInfo = document.createElement('div');
   cardInfo.classList.add('card-info');
@@ -80,13 +74,62 @@ function githubCard(myProfile) {
 
   const userName = document.createElement('p');
   userName.classList.add('username');
+  userName.classList.add('card p');
 
   const location = document.createElement('p');
-  const profile = document.createElement('p');
-  const followers = document.createElement('p');
-  const following = document.createElement('p');
-  const bio = document.createElement('p');
+  location.classList.add('card p');
 
-  console.log(githubCard);
+  const profile = document.createElement('p');
+  profile.classList.add('card p');
+  const profileLink = document.createElement('a')
+
+  const followers = document.createElement('p');
+  followers.classList.add('card p');
+
+  const following = document.createElement('p');
+  following.classList.add('card p');
+
+  const bio = document.createElement('p');
+  bio.classList.add('card p');
+
+  newCard.appendChild(newImg);
+  newCard.appendChild(cardInfo);
+  newCard.appendChild(name);
+  newCard.appendChild(userName);
+  newCard.appendChild(location);
+  newCard.appendChild(profile);
+  profile.appendChild(profileLink);
+  newCard.appendChild(followers);
+  newCard.appendChild(following);
+  newCard.appendChild(bio);
+
+  newImg.src = `${myProfile.avatar_url}`;
+  name.textContent = `${myProfile.name}`;
+  userName.textContent = `${myProfile.login}`;
+  location.textContent =  `${myProfile.location}`;
+  profileLink.src =  `${myProfile.html_url}`;
+  followers.textContent =  `${myProfile.followers_url}`;
+  following.textContent =  `${myProfile.following_url}`;
+  bio.textContent =  `${myProfile.bio}`;
+
+
+
+  console.log(newCard);
 }
 
+
+
+const cardss = document.querySelector('.cards');
+
+
+axios
+  .get('https://api.github.com/users/Iyehvah')
+    .then((response) => {
+      response.data.forEach((card) => {
+        const newProfileEntry = new githubCard(card);
+        cardss.appendChild(newProfileEntry);
+      });
+    })
+    .catch( err => {
+      console.log(err);
+    });
