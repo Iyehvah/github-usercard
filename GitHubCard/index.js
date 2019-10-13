@@ -3,7 +3,18 @@
            https://api.github.com/users/<your name>
 */
 
-
+axios
+  .get('https://api.github.com/users/Iyehvah')
+    .then((response) => {
+      console.log(response.data);
+      const userAccount = response.data;
+      const gitCard = githubCard(userAccount);
+      const appendHere = document.querySelector(".cards");
+      appendHere.appendChild(gitCard);
+    })
+    .catch( err => {
+      console.log(err);
+    });
 
 
 // console.log(myProfile);
@@ -30,7 +41,28 @@
           user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = [  
+  'tetondan',
+  'dustinmyers',
+  'justsml',
+  'luishrd',
+  'bigknell'
+];
+
+followersArray.forEach( peoples => {
+  axios.get(`https://api.github.com/users/${peoples}`)
+  .then((response) => {
+    console.log(response.data);
+    const userAccount = response.data;
+    const gitCard = githubCard(userAccount);
+    const appendHere = document.querySelector(".cards");
+    appendHere.appendChild(gitCard);
+  })
+  .catch( (err) => {
+    console.log(err)
+  });
+});
+
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -64,7 +96,6 @@ function githubCard(myProfile) {
   newCard.classList.add('card');
 
   const newImg = document.createElement('img');
-  newImg.classList.add('card img');
 
   const cardInfo = document.createElement('div');
   cardInfo.classList.add('card-info');
@@ -74,62 +105,52 @@ function githubCard(myProfile) {
 
   const userName = document.createElement('p');
   userName.classList.add('username');
-  userName.classList.add('card p');
 
   const location = document.createElement('p');
-  location.classList.add('card p');
+  // location.classList.add('card p');
 
   const profile = document.createElement('p');
-  profile.classList.add('card p');
+  // profile.classList.add('card p');
   const profileLink = document.createElement('a')
 
   const followers = document.createElement('p');
-  followers.classList.add('card p');
+  // followers.classList.add('card p');
 
   const following = document.createElement('p');
-  following.classList.add('card p');
+  // following.classList.add('card p');
 
   const bio = document.createElement('p');
-  bio.classList.add('card p');
+  // bio.classList.add('card p');
 
   newCard.appendChild(newImg);
   newCard.appendChild(cardInfo);
-  newCard.appendChild(name);
-  newCard.appendChild(userName);
-  newCard.appendChild(location);
-  newCard.appendChild(profile);
+  cardInfo.appendChild(name);
+  cardInfo.appendChild(userName);
+  cardInfo.appendChild(location);
+  cardInfo.appendChild(profile);
   profile.appendChild(profileLink);
-  newCard.appendChild(followers);
-  newCard.appendChild(following);
-  newCard.appendChild(bio);
+  cardInfo.appendChild(followers);
+  cardInfo.appendChild(following);
+  cardInfo.appendChild(bio);
 
   newImg.src = `${myProfile.avatar_url}`;
   name.textContent = `${myProfile.name}`;
   userName.textContent = `${myProfile.login}`;
-  location.textContent =  `${myProfile.location}`;
-  profileLink.src =  `${myProfile.html_url}`;
-  followers.textContent =  `${myProfile.followers_url}`;
-  following.textContent =  `${myProfile.following_url}`;
-  bio.textContent =  `${myProfile.bio}`;
+  location.textContent =  `Location: ${myProfile.location}`;
+  profileLink.setAttribute("href", myProfile.html_url);
+  profileLink.textContent = `${myProfile.html_url}`;
+  followers.textContent =  `Followers: ${myProfile.followers}`;
+  following.textContent =  `Following: ${myProfile.following}`;
+  bio.textContent =  `Bio: ${myProfile.bio}`;
 
 
 
   console.log(newCard);
+  return newCard;
 }
 
 
 
-const cardss = document.querySelector('.cards');
+// const cardss = document.querySelector('.cards');
 
 
-axios
-  .get('https://api.github.com/users/Iyehvah')
-    .then((response) => {
-      response.data.forEach((card) => {
-        const newProfileEntry = new githubCard(card);
-        cardss.appendChild(newProfileEntry);
-      });
-    })
-    .catch( err => {
-      console.log(err);
-    });
